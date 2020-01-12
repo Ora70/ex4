@@ -21,6 +21,9 @@ void State:: SetPrevious(State from) {
 double State:: getCost() const {
     return cost;
 }
+void State:: setCost(double c) {
+    cost = c;
+};
 pair<int, int> State::getPosition() {
     return position;
 }
@@ -37,6 +40,8 @@ MatrixDomain:: MatrixDomain(double* mat, int row, int col, pair<int, int> theSta
     matrix = mat;
     rowSize = row;
     colSize = col;
+    //set cost of starting point to the value in that square
+    start.setCost(mat[theStart.first*col + theStart.second]);
 }
 
 State MatrixDomain::getInitialState() {

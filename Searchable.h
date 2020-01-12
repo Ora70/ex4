@@ -19,6 +19,7 @@ public:
     State* GetPrevious();
     void SetPrevious(State from);
     double getCost() const;
+    void setCost(double c);
     pair<int, int> getPosition();
     bool equals(State s);
 };
