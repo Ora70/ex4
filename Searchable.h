@@ -12,6 +12,7 @@ class State {
     double cost;
     pair<int, int> position;
     State *cameFrom;
+    string stringPos;
 
 public:
     State(pair<int, int> pos, State *from, double theCost);
@@ -22,6 +23,7 @@ public:
     void setCost(double c);
     pair<int, int> getPosition();
     bool equals(State s);
+    string getStringPos();
 };
 
 bool operator<(const State & s1, const State & s2);

@@ -6,11 +6,17 @@ State:: State (int i, int j, State *from, double theCost) {
     position.second = j;
     cameFrom = from;
     cost = theCost;
+    stringPos = to_string(i);
+    string s2 = to_string(j);
+    stringPos.append(",").append(s2);
 }
 State::State(pair<int, int> pos, State *from, double theCost) {
     position = pos;
     cameFrom = from;
     cost = theCost;
+    stringPos = to_string(pos.first);
+    string s2 = to_string(pos.second);
+    stringPos.append(",").append(s2);
 }
 State* State:: GetPrevious() {
     return cameFrom;
@@ -26,6 +32,9 @@ void State:: setCost(double c) {
 };
 pair<int, int> State::getPosition() {
     return position;
+}
+string State::getStringPos() {
+    return stringPos;
 }
 bool State::equals(State s) {
     pair<int, int> otherPos = s.getPosition();
