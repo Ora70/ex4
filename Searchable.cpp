@@ -70,10 +70,10 @@ MatrixDomain:: MatrixDomain(int* mat, int row, int col, pair<int, int> theStart,
 }
 
 State* MatrixDomain::getInitialState() {
-    return start;
+    return new State(start);
 }
 State* MatrixDomain::getGoalState() {
-    return goal;
+    return new State(goal);
 }
 list<State*> MatrixDomain::getAllPossibleStates(State* s) {
     list<State*> adjStates;

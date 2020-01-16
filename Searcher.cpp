@@ -19,8 +19,6 @@ string AbstractSearcher::search(Searchable<State *> *searchable) {
             if ((*it)->equals(searchable->getGoalState())) { //reached goal state. can stop iteration
                 numOfNodes += 1;
                 nodesSeen.insert({(*it)->getStringPos(), *it});
-                //update cost in goal state to the cost of getting there in the algorithm
-                searchable->getGoalState()->setCost((*it)->getCost());
                 string solution = traceSolution(*it);
                 deleteNodes(nodesSeen);
                 return solution;
@@ -41,19 +39,20 @@ string AbstractSearcher::traceSolution(State* goal) {
     while (previous != nullptr) {
         pair<int, int> currPos = goal->getPosition();
         pair<int, int> prevPos = previous->getPosition();
+        int cost = goal->getCost();
         if (prevPos.first > currPos.first) { //prev row below
-            solution = "Up,"+solution;
+            solution = "Up ("+ to_string(cost)+ "), "+solution;
         } else if (prevPos.first < currPos.first) { //prev row above
-            solution = "Down,"+solution;
+            solution = "Down("+ to_string(cost)+ "), "+solution;
         } else if (prevPos.second > currPos.second) { //prev column on the right
-            solution = "Left,"+solution;
+            solution = "Left("+ to_string(cost)+ "), "+solution;
         } else {
-            solution = "Right,"+solution;
+            solution = "Right("+ to_string(cost)+ "), "+solution;
         }
         goal = previous;
         previous = goal->getPrevious();
     }
-    solution = solution.substr(0, solution.size()-1);
+    solution = solution.substr(0, solution.size()-2);
     return solution;
 }
 void AbstractSearcher:: deleteNodes(unordered_map<string, State*> nodesSeen) {
@@ -163,14 +162,10 @@ bool AStarSearch::structureIsEmpty() {
 void AStarSearch::updateHOfNode(State *state) {
     pair<int, int> goalPos = searchableObj->getGoalState()->getPosition();
     pair<int, int> sPos = state->getPosition();
-    pair<int, int> startPos = searchableObj->getInitialState()->getPosition();
     double disToGoal = abs(sPos.first-goalPos.first) + abs(sPos.second+goalPos.second);
-    double disToStart = abs(sPos.first-startPos.first) + abs(sPos.second+startPos.second);
-    double costFromStart = state->getCost();
-    //calculate h
-    double h = (disToGoal / disToStart) * costFromStart;
+    double h = disToGoal;
     vector<double> cost;
-    cost.push_back(costFromStart); //first cost in vector is true cost from start
+    cost.push_back(state->getCost()); //first cost in vector is true cost from start
     cost.push_back(h); //second cost is estimated cost to goal
     state->setCost(cost);
 }
