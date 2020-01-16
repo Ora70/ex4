@@ -132,23 +132,21 @@ void AStarSearch::insertNodeToStructure(State *state) {
     unordered_map<std::string,State*>::iterator itr;
     string strPos = state->getStringPos();
     if ((itr = closed.find(strPos)) != closed.end()) { //node in closed list. Check if new cost smaller
-        /*
-         * operation < defined oposite from sign fir min queue. if *itr->second < *state == true
-         * so the cost in state is actually smaller
-         * */
-        if (*itr->second < *state) { //new cost smaller. need to remove from closed and add to opened
+        State old = *itr->second;
+        if (state->getCost() < old.getCost()) { //new cost smaller. need to remove from closed and add to opened
             closed.erase(itr);
             open.push(State(state));
         }
     } else if ((itr = nodesSeen.find(strPos)) != nodesSeen.end()) { //node in queue
-        if (*itr->second < *state) { //new cost smaller. need to update queue
+        State old = *itr->second;
+        if (state->getCost() < old.getCost()) { //new cost smaller. need to update queue
             open.remove(itr->second); //remove old node
             open.push(State(state));
         }
     } else {
         //new node. need to add to queue
         open.push(State(state));
-        nodesSeen.insert({strPos, state}); //add to node to seen map
+        nodesSeen.insert({strPos, state}); //add node to seen map
     }
 }
 State* AStarSearch::getNextNodeFromStructure() {
