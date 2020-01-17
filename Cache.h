@@ -1,6 +1,6 @@
 
-#ifndef EX4_CACHE_H
-#define EX4_CACHE_H
+#ifndef EXE4_CACHE_H
+#define EXE4_CACHE_H
 
 #include <string>
 #include <unordered_map>
@@ -23,14 +23,14 @@ public:
     virtual void SaveNewProblem(Problem prob, Solution sol) = 0;
 };
 
-class FileCacheManager: public CacheManager<string, string> {
-    unordered_set <string> savedProblems;
+class FileCacheManager: public CacheManager<string, unsigned long> {
+    unordered_map <unsigned long, string> savedProblems;
 
 public:
     FileCacheManager(){}
-    virtual bool solutionExists(string prob);
-    virtual string getSolution(string prob);
-    virtual void SaveNewProblem(string prob, string sol);
+    virtual bool solutionExists(unsigned long prob);
+    virtual string getSolution(unsigned long prob);
+    virtual void SaveNewProblem(unsigned long prob, string sol);
 };
 
-#endif //EX4_CACHE_H
+#endif //EXE4_CACHE_H
