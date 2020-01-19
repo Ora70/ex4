@@ -9,60 +9,99 @@
 #include <vector>
 using namespace std;
 
+template <typename POS>
 class State {
     vector<double> cost;
-    pair<int, int> position;
+    POS position;
     State *cameFrom;
-    string stringPos;
+    string stringRep;
 
 public:
-    State(pair<int, int> pos, State *from, double theCost);
-    State(int i, int j, State *from, double theCost): State(pair<int,int>(i,j), from, theCost) {}
-    State(pair<int, int> pos, State *from, vector<double> theCost);
-    State(int i, int j, State *from, vector<double> theCost): State(pair<int,int>(i,j), from, theCost) {}
+    State(POS pos, State *from, double theCost, string strRep) {
+        position = pos;
+        cameFrom = from;
+        cost.push_back(theCost);
+        stringRep = strRep;
+    }
+    State(POS pos, State *from, vector<double> theCost, string strRep) {
+        position = pos;
+        cameFrom = from;
+        cost = theCost;
+        stringRep = strRep;
+    }
     State(State* s) {
         position = s->getPosition();
         cost = s->getVectorCost();
         cameFrom = s->getPrevious();
-        stringPos = s->getStringPos();
+        stringRep = s->getStringRep();
     }
-    State* getPrevious();
-    void SetPrevious(State *from);
-    double getCost() const;
-    void setCost(double c);
-    void setCost(vector<double> c);
-    pair<int, int> getPosition() const;
-    bool equals(State *s);
-    string getStringPos() const;
-    vector<double> getVectorCost() const;
+    State* getPrevious() {
+        return cameFrom;
+    }
+    double getCost() const {
+        return cost[0];
+    }
+    void setCost(double c) {
+        cost[0] = c;
+    }
+    void setCost(vector<double> c){
+        cost = c;
+    }
+    POS getPosition() const {
+        return position;
+    }
+    bool equals(State *s) {
+        return (stringRep == s->getStringRep());
+    }
+    string getStringRep() const {
+        return stringRep;
+    }
+    vector<double> getVectorCost() const {
+        return cost;
+    }
 };
-
-bool operator<(const State & s1, const State & s2);
-bool operator==(const State & s1, const State & s2);
-
+template <typename POS>
+bool operator<(const State<POS> & s1, const State<POS> & s2) {
+    vector<double> v1 = s1.getVectorCost();
+    vector<double> v2 = s2.getVectorCost();
+    int size = v1.size(), i, cost1 = 0, cost2 = 0;
+    for (i = 0; i<size; i++) { //sum the costs in each vector and return which sum is smaller
+        cost1 += v1[i];
+        cost2 += v2[i];
+    }
+    return cost2 < cost1;
+}
+template <typename POS>
+bool operator==(const State<POS> & s1, const State<POS> & s2){
+    return (s1.getStringRep() == s2.getStringRep());
+}
 /*
  * searchable interface
  */
-template <typename state>
+template <typename POS>
 class Searchable {
 public:
-    virtual state getInitialState() = 0;
-    virtual state getGoalState() = 0;
-    virtual list<state> getAllPossibleStates(state s) = 0;
+    virtual State<POS>* getInitialState() = 0;
+    virtual State<POS>* getGoalState() = 0;
+    virtual list<State<POS>*> getAllPossibleStates(State<POS> *s) = 0;
+    virtual int getheuristicVal(State<pair<int,int>> *s) = 0;
+    virtual string traceSolution(State<pair<int,int>>* goal) = 0;
 };
 
-class MatrixDomain: public Searchable<State*> {
-    State* start;
-    State* goal;
+class MatrixDomain: public Searchable<pair<int,int>> {
+    State<pair<int,int>>* start;
+    State<pair<int,int>>* goal;
     int *matrix;
     int rowSize;
     int colSize;
 
 public:
     MatrixDomain(int* mat, int row, int col, pair<int, int> theStart, pair<int, int> end);
-    virtual State* getInitialState();
-    virtual State* getGoalState();
-    virtual list<State*> getAllPossibleStates(State* s);
+    virtual State<pair<int,int>>* getInitialState();
+    virtual State<pair<int,int>>* getGoalState();
+    virtual list<State<pair<int,int>>*> getAllPossibleStates(State<pair<int,int>>* s);
+    virtual int getheuristicVal(State<pair<int,int>> *s);
+    virtual string traceSolution(State<pair<int,int>>* goal);
 };
 
 #endif //EX4_SEARCHABLE_H
