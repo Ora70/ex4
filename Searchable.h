@@ -101,7 +101,7 @@ public:
     virtual State<pair<int,int>>* getGoalState();
     virtual list<State<pair<int,int>>*> getAllPossibleStates(State<pair<int,int>>* s);
     virtual int getheuristicVal(State<pair<int,int>> *s);
-    virtual string traceSolution(State<pair<int,int>>* goal);
+    virtual string traceSolution(State<pair<int,int>>* state);
 };
 
 #endif //EX4_SEARCHABLE_H
