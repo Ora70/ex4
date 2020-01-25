@@ -2,7 +2,7 @@ This program finds the shortest path in a weighted matrix.
 How to use:
 The program recieves as an argument a port to listen on.
 Once you connect to the server, send the values of the matrix, seperated by commas, and with '\n' at the end of every line.
-Once you finished sending the matrix, send "end" and after that send 2 more lines, in each line 2 numbers split by a comma. The first line being the starting point in the search, and the second the finishing point.
+Once you finished sending the matrix, send 2 more lines, in each line 2 numbers split by a comma and after that send "end". The first line being the starting point in the search, and the second the finishing point.
 The server will calculate the shortest path from start to end, using A star algorithm and send a string of the path to take (up/down/left/right), along with the price of the path to each square.
 *In the matrux, the number -1 symbolizes a "wall"
 
