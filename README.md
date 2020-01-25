@@ -8,6 +8,6 @@ The server will calculate the shortest path from start to end, using A star algo
 
 Implementation:
 The program implemented 4 search algorithms: A star, Best First Search, BFS, DFS, and chose A star as the best algorithm for searching.
-The program saves the solved problems in files on the computer, so in the event of a new problem, it will first check if the problem was already solved, and if so, it will return the anser in the file and not run a search. If not - it will solve the problem and save the solution for future use.
+The program saves the solved problems in files next to the program files, so in the event of a new problem, it will first check if the problem was already solved, and if so, it will return the anser in the file and not run a search. If not - it will solve the problem and save the solution for future use.
 
 The program can handle multiple clients in parallel.
