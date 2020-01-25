@@ -10,6 +10,7 @@
 #include <fstream>
 #include <utility>
 #include <bits/stdc++.h>
+#include <sys/stat.h>
 using namespace std;
 
 /*
@@ -21,16 +22,17 @@ public:
     virtual bool solutionExists(Problem prob) = 0;
     virtual Solution getSolution(Problem prob) = 0;
     virtual void SaveNewProblem(Problem prob, Solution sol) = 0;
+    virtual ~CacheManager() {}
 };
 
-class FileCacheManager: public CacheManager<string, unsigned long> {
-    unordered_map <unsigned long, string> savedProblems;
+class FileCacheManager: public CacheManager<string, string> {
 
 public:
     FileCacheManager(){}
-    virtual bool solutionExists(unsigned long prob);
-    virtual string getSolution(unsigned long prob);
-    virtual void SaveNewProblem(unsigned long prob, string sol);
+    virtual bool solutionExists(string prob);
+    virtual string getSolution(string prob);
+    virtual void SaveNewProblem(string prob, string sol);
+    virtual ~FileCacheManager() {}
 };
 
 #endif //EXE4_CACHE_H
