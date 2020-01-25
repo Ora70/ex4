@@ -1,6 +1,6 @@
 
-#ifndef EX4_SEARCHABLE_H
-#define EX4_SEARCHABLE_H
+#ifndef EXE4_SEARCHABLE_H
+#define EXE4_SEARCHABLE_H
 
 #include <utility>
 #include <string>
@@ -86,6 +86,7 @@ public:
     virtual list<State<POS>*> getAllPossibleStates(State<POS> *s) = 0;
     virtual int getheuristicVal(State<pair<int,int>> *s) = 0;
     virtual string traceSolution(State<pair<int,int>>* goal) = 0;
+    virtual ~Searchable() {}
 };
 
 class MatrixDomain: public Searchable<pair<int,int>> {
@@ -102,6 +103,9 @@ public:
     virtual list<State<pair<int,int>>*> getAllPossibleStates(State<pair<int,int>>* s);
     virtual int getheuristicVal(State<pair<int,int>> *s);
     virtual string traceSolution(State<pair<int,int>>* state);
+    virtual ~MatrixDomain() {
+        delete matrix;
+    }
 };
 
-#endif //EX4_SEARCHABLE_H
+#endif //EXE4_SEARCHABLE_H

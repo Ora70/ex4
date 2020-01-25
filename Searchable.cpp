@@ -65,6 +65,7 @@ int MatrixDomain::getheuristicVal(State<pair<int,int>> *s) {
     pair<int, int> sPos = s->getPosition();
     return abs(sPos.first-goalPos.first) + abs(sPos.second+goalPos.second);
 }
+
 string MatrixDomain::traceSolution(State<pair<int,int>> *state) {
     string solution;
     State<pair<int,int>> *previous = state->getPrevious();

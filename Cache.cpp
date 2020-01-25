@@ -1,16 +1,25 @@
 
 #include "Cache.h"
 
-bool FileCacheManager::solutionExists(unsigned long prob) {
-    if (savedProblems.find(prob) != savedProblems.end()) {
-        return true;
-    } else {
+/*
+ * check if solution exist.
+ */
+bool FileCacheManager::solutionExists(string prob) {
+
+    ifstream read_file;
+    read_file.open(prob+".txt", ios::in);
+    if (!read_file) {
         return false;
     }
+    read_file.close();
+    return true;
 }
-string FileCacheManager::getSolution(unsigned long prob) {
+/*
+ * return the solution to the problem.
+ */
+string FileCacheManager::getSolution(string prob) {
     ifstream read_file;
-    read_file.open(to_string(prob)+".txt", ios::in);
+    read_file.open(prob+".txt", ios::in);
     if (!read_file) {
         throw "failed opening file";
     }
@@ -22,11 +31,14 @@ string FileCacheManager::getSolution(unsigned long prob) {
     read_file.close();
     return solution;
 }
-void FileCacheManager::SaveNewProblem(unsigned long prob, string sol) {
-    savedProblems[prob] = sol;
-    ofstream file_obj;
 
-    file_obj.open(to_string(prob)+".txt", ios::out);
+/*
+ * add solution to cache.
+ */
+void FileCacheManager::SaveNewProblem(string prob, string sol) {
+
+    ofstream file_obj;
+    file_obj.open(prob +".txt", ios::out);
     if (!file_obj) {
         throw "failed opening file";
     }

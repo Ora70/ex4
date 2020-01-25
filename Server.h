@@ -18,6 +18,7 @@ namespace server_side {
     public:
         virtual void open(int port, ClientHandler *clientHandler) = 0;
         virtual void stop() = 0;
+        virtual ~Server() {}
     };
 }
 
@@ -32,6 +33,23 @@ public:
     }
     virtual void open(int port, ClientHandler *clientHandler);
     virtual void stop();
+    virtual ~MySerialServer() {}
+};
+
+class MyParallelServer : public server_side::Server {
+    std::vector<std::thread> threads;
+    int socketfd;
+    sockaddr_in address;
+    bool isDone;
+    void openParallelSocket(ClientHandler *clientHandler);
+    void handel(ClientHandler *clientHandler, int client_socket);
+public:
+    MyParallelServer() {
+        isDone = false;
+    }
+    virtual void open(int port, ClientHandler *clientHandler);
+    virtual void stop();
+    virtual ~MyParallelServer() {}
 };
 
 #endif //EXE4_SERVER_H

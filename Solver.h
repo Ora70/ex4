@@ -1,9 +1,9 @@
 
-#ifndef EX4_SOLVER_H
-#define EX4_SOLVER_H
+#ifndef EXE4_SOLVER_H
+#define EXE4_SOLVER_H
 
 #include <string>
-
+#include "Searchable.h"
 using namespace std;
 
 /*
@@ -20,6 +20,11 @@ public:
 class StringReverser: public Solver<string, string> {
 public:
     virtual string solve(string problem);
+    virtual ~StringReverser() {}
 };
 
-#endif //EX4_SOLVER_H
+class SolverForMatrix : public Solver<string, MatrixDomain> {
+    virtual string solve(MatrixDomain problem);
+    virtual ~SolverForMatrix() {}
+};
+#endif //EXE4_SOLVER_H

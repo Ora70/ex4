@@ -1,6 +1,6 @@
 
-#ifndef EX4_MYPRIORITYQUEUE_H
-#define EX4_MYPRIORITYQUEUE_H
+#ifndef EXE4_MYPRIORITYQUEUE_H
+#define EXE4_MYPRIORITYQUEUE_H
 
 #include <queue>
 #include <algorithm>
@@ -21,4 +21,4 @@ public:
     }
 };
 
-#endif //EX4_MYPRIORITYQUEUE_H
+#endif //EXE4_MYPRIORITYQUEUE_H

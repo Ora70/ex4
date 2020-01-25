@@ -1,6 +1,7 @@
 
-#ifndef EX4_SEARCHER_H
-#define EX4_SEARCHER_H
+#ifndef EXE4_SEARCHER_H
+#define EXE4_SEARCHER_H
+
 #include <string>
 #include "Searchable.h"
 #include <queue>
@@ -17,6 +18,7 @@ class Searcher {
 public:
     virtual string search(Searchable<POS>*) = 0;
     virtual int getNumberOfNodesEvaluated() = 0;
+    virtual ~Searcher() {}
 };
 template <typename POS>
 class AbstractSearcher: public Searcher<POS> {
@@ -59,6 +61,7 @@ public:
         return "No path found"; //if reached the end of while loop there's no path from start to the goal
     }
     virtual int getNumberOfNodesEvaluated() {return numOfNodes;}
+    virtual ~AbstractSearcher() {}
 };
 
 template <typename POS>
@@ -79,6 +82,8 @@ class DFS: public AbstractSearcher<POS> {
         return s;
     }
     virtual bool structureIsEmpty() {return DFSstack.empty();}
+public:
+    virtual ~DFS() {}
 };
 
 template <typename POS>
@@ -99,6 +104,8 @@ class BFS: public AbstractSearcher<POS> {
         return s;
     }
     virtual bool structureIsEmpty() {return BFSq.empty();}
+public:
+    virtual ~BFS() {}
 };
 
 template <typename POS>
@@ -132,6 +139,8 @@ class BestFirstSearch: public AbstractSearcher<POS> {
         return state;
     }
     virtual bool structureIsEmpty() {return open.empty();}
+public:
+    virtual ~BestFirstSearch() {}
 };
 
 template <typename POS>
@@ -175,6 +184,8 @@ class AStarSearch: public AbstractSearcher<POS> {
         return state;
     }
     virtual bool structureIsEmpty() { return open.empty();}
+public:
+    virtual ~AStarSearch() {}
 };
 
-#endif //EX4_SEARCHER_H
+#endif //EXE4_SEARCHER_H
