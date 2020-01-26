@@ -37,7 +37,7 @@ void MySerialServer :: open(int port, ClientHandler *clientHandler) {
     }
 
     thread acceptThread([=] {this->acceptingClients(clientHandler);});
-    acceptThread.detach();
+    acceptThread.join();
 
 }
 
@@ -51,7 +51,7 @@ void MySerialServer :: acceptingClients(ClientHandler *clientHandler) {
         socklen_t size;
         int client_socket = accept(socketfd, (struct sockaddr *) &address, (socklen_t *) &size);
         if (client_socket == -1) {
-            std::cerr << "Error accepting client or timeout" << std::endl;
+            stop();
         } else {
             std::cout << "client accepted" << std::endl;
             clientHandler->handelClient(client_socket);
@@ -101,7 +101,7 @@ void MyParallelServer ::open(int port, ClientHandler *clientHandler) {
     }
 
     thread parallelThread([=] { this->openParallelSocket(clientHandler); });
-    parallelThread.detach();
+    parallelThread.join();
 }
 
 /*
@@ -112,14 +112,13 @@ void MyParallelServer ::openParallelSocket(ClientHandler *clientHandler) {
     while (!isDone) {
         socklen_t size;
         int client_socket = accept(socketfd, (struct sockaddr *) &address, (socklen_t *) &size);
-        if (client_socket == -1) {
-            std::cerr << "Error accepting client or timeout" << std::endl;
+        if (client_socket < 0) {
+            stop();
         } else {
             std::cout << "client accepted" << std::endl;
             threads.push_back(std::thread([=] { this->handel(clientHandler, client_socket); }));
         }
     }
-
 }
 
 /*

@@ -23,4 +23,3 @@ string SolverForMatrix ::solve(MatrixDomain problem) {
     delete bestFirstSearch;
     return solution;
 }
-
