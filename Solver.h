@@ -24,6 +24,7 @@ public:
 };
 
 class SolverForMatrix : public Solver<string, MatrixDomain> {
+public:
     virtual string solve(MatrixDomain problem);
     virtual ~SolverForMatrix() {}
 };

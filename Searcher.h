@@ -82,6 +82,7 @@ class DFS: public AbstractSearcher<POS> {
         return s;
     }
     virtual bool structureIsEmpty() {return DFSstack.empty();}
+
 public:
     virtual ~DFS() {}
 };
